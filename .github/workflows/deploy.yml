@@ -1,0 +1,33 @@
+name: Auto Deploy PHP App to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "
+            cd /home/kampusriset-hayati/htdocs/hayati.kampusriset.org/miftah_hayati &&
+            echo '>>> Pulling latest code from main branch...' &&
+            git fetch origin main &&
+            git reset --hard origin/main &&
+            echo '>>> Setting proper permissions...' &&
+            find . -type d -exec chmod 755 {} \; &&
+            find . -type f -exec chmod 644 {} \; &&
+            echo '>>> Clearing old cache...' &&
+            rm -rf storage/framework/cache/* storage/framework/views/* storage/framework/sessions/* 2>/dev/null || true &&
+            echo '>>> Deployment complete ✅'
+          "
