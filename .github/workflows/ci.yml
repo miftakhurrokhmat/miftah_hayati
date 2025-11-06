@@ -1,0 +1,16 @@
+name: CI Demo
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Ambil kode dari repository
+      - uses: actions/checkout@v4
+
+      # Jalankan perintah build/test
+      - name: Jalankan Tes
+        run: echo "Build berhasil!"
