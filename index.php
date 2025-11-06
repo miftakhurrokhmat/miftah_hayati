@@ -1,6 +1,6 @@
 <?php
 
-echo "Selamat Pagi, Dunia!";
+echo "Selamat Siang, Dunia!";
 echo "\n Mantap";
 
 ?>
