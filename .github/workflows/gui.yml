@@ -6,6 +6,8 @@ on:
 jobs:
   gui-test:
     runs-on: self-hosted
+    env:
+      ACTIONS_RUNNER_DISABLE_PROCESS_CLEANUP: true 
 
     steps:
       - name: Open Notepad
