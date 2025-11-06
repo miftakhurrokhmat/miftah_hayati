@@ -1,13 +1,14 @@
-name: Test Notepad Launch
+name: Test Run Notepad
 
 on:
   workflow_dispatch:
 
 jobs:
-  gui-test:
+  open-notepad:
     runs-on: self-hosted
 
     steps:
-      - name: Buka Notepad
+      - name: Buka Notepad GUI
+        shell: cmd
         run: |
           start "" "C:\Windows\System32\notepad.exe"
